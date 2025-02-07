@@ -1,5 +1,5 @@
 var Nashorn2 = Java.type('com.winterbe.java8.samples.nashorn.Nashorn2');
-var result = Nashorn2.fun('John Doe');
+var result = Nashorn2.fun('salah');
 print('\n' + result);
 
 Nashorn2.fun2(123);
