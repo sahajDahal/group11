@@ -1,8 +1,9 @@
-// function literal with no braces
+//Rithika Gantla edited this file
+/ function literal with no braces
 
 function sqr(x) x * x;
 
-print(sqr(3));
+print(sqr(4));
 
 
 // for each
@@ -15,7 +16,7 @@ for each (var num in array) print(num);
 
 var runnable = new java.lang.Runnable() {
     run: function() {
-        print('on the run');
+        print('it works woohoo!!');
     }
 };
 
