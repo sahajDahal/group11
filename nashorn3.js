@@ -1,3 +1,4 @@
+//fatmanur updated
 print('------------------');
 print('IntArray:');
 
@@ -16,13 +17,13 @@ try {
     print(e.message);
 }
 
-array[0] = "17";
+array[0] = "187";
 print(array[0]);
 
-array[0] = "wrong type";
+array[0] = "incorrect";
 print(array[0]);
 
-array[0] = "17.3";
+array[0] = "187.00003";
 print(array[0]);
 
 print('------------------');
@@ -67,7 +68,7 @@ var list2 = new ArrayList();
 list2.add("ddd2");
 list2.add("aaa2");
 list2.add("bbb1");
-list2.add("aaa1");
+list2.add("aaaaaaaaaaaaaaa1");
 list2.add("bbb3");
 list2.add("ccc");
 list2.add("bbb2");
