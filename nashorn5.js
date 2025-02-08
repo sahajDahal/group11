@@ -1,16 +1,20 @@
+// Sanjana Updated - 02/07/2025
 function Product(name) {
     this.name = name;
 }
 
-Product.prototype.stock = 0;
-Product.prototype.price = 0;
+//changed prototype stock and price
+Product.prototype.stock = 10;
+Product.prototype.price = 70.89;
 Product.prototype.getValueOfGoods = function() {
     return this.stock * this.price;
 };
 
-var product = new Product('Pencil');
-product.price = 4.99;
-product.stock = 78;
+//new product is updated
+var product = new Product('Bag');
+product.sale = 5;
+product.price = 21.99;
+product.stock = 80;
 
 print('Value of Goods: ' + product.getValueOfGoods());
 
