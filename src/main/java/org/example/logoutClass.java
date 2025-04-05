@@ -1,3 +1,4 @@
+package org.example;
 import java.util.Map;
 import java.util.HashMap;
 public class logoutClass {

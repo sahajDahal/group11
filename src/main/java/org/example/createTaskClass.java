@@ -72,15 +72,19 @@ public class createTaskClass {
 /**
  * A simple Task class representing a task with a name, description, and scheduled time.
  */
+
+
 class Task {
     private String name;
     private String description;
     private LocalDateTime scheduledTime;
+    private String status; // New field for task status
 
     public Task(String name, String description, LocalDateTime scheduledTime) {
         this.name = name;
         this.description = description;
         this.scheduledTime = scheduledTime;
+        this.status = "Pending"; // Default status value
     }
 
     // Getters for testing purposes
@@ -96,9 +100,13 @@ class Task {
         return scheduledTime;
     }
 
-    @Override
-    public String toString() {
-        return "Task{name='" + name + "', description='" + description +
-                "', scheduledTime=" + scheduledTime + "}";
+    public String getStatus() {
+        return status;
+    }
+
+    // New setter method for status
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
+

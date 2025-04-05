@@ -6,15 +6,16 @@ import org.junit.jupiter.api.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class DeleteTaskClassTest {
+public class deleteTaskClassTest {
 
-    private CreateTaskClass taskManager;
-    private DeleteTaskClass deleteTask;
+    private createTaskClass taskManager;
+    private deleteTaskClass deleteTask;
 
     @BeforeEach
     public void setUp() {
-        taskManager = new CreateTaskClass();
-        deleteTask = new DeleteTaskClass(taskManager);
+        taskManager = new createTaskClass();
+        // Pass the task list from taskManager to deleteTaskClass as required
+        deleteTask = new deleteTaskClass(taskManager.getTasks());
     }
 
     @AfterEach
@@ -57,11 +58,11 @@ public class DeleteTaskClassTest {
     public void testDeleteTaskThatIsInProgress() {
         String taskName = "Ongoing Task";
         taskManager.createTask(taskName, "Ongoing Description", LocalDateTime.now());
-        
+
         // Simulate changing status to "In Progress"
         Task task = taskManager.getTasks().get(0);
         task.setStatus("In Progress");
-        
+
         boolean result = deleteTask.deleteTask(taskName);
         assertFalse(result, "Task deletion should fail for a task in progress.");
     }
@@ -70,11 +71,11 @@ public class DeleteTaskClassTest {
     public void testDeleteTaskThatIsFinished() {
         String taskName = "Completed Task";
         taskManager.createTask(taskName, "Completed Description", LocalDateTime.now());
-        
+
         // Simulate changing status to "Finished"
         Task task = taskManager.getTasks().get(0);
         task.setStatus("Finished");
-        
+
         boolean result = deleteTask.deleteTask(taskName);
         assertFalse(result, "Task deletion should fail for a completed task.");
     }
@@ -83,10 +84,10 @@ public class DeleteTaskClassTest {
     public void testDeleteTaskWithoutConfirmation() {
         String taskName = "Unconfirmed Task";
         taskManager.createTask(taskName, "Description", LocalDateTime.now());
-        
+
         boolean confirmed = false; // Simulate user not confirming
         boolean result = confirmed && deleteTask.deleteTask(taskName);
-        
+
         assertFalse(result, "Task should not be deleted without confirmation.");
     }
 }
