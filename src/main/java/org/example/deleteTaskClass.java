@@ -1,3 +1,4 @@
+package org.example;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,6 +14,11 @@ public class deleteTaskClass {
         while (iterator.hasNext()) {
             Task task = iterator.next();
             if (task.getName().equalsIgnoreCase(name)) {
+                // Do not delete if the task is in progress or finished.
+                if ("In Progress".equals(task.getStatus()) || "Finished".equals(task.getStatus())) {
+                    System.out.println("Task cannot be deleted due to its status: " + task.getStatus());
+                    return false;
+                }
                 iterator.remove();
                 System.out.println("Task deleted: " + task);
                 return true;
