@@ -13,11 +13,7 @@ public class createTaskClass {
     }
 
     /**
-     * Creates a new task and adds it to the task list.
-     *
-     * @param name the name of the task
-     * @param description a brief description of the task
-     * @param scheduledTime the time the task is scheduled to run
+     * Creating a new task and adds it to the task list.
      */
     public void createTask(String name, String description, LocalDateTime scheduledTime) {
         Task task = new Task(name, description, scheduledTime);
@@ -25,17 +21,11 @@ public class createTaskClass {
         System.out.println("Task created: " + task);
     }
 
-    /**
-     * Getter for the list of tasks.
-     * @return the list of tasks.
-     */
     public List<Task> getTasks() {
         return tasks;
     }
 
-    /**
-     * Main method for testing task creation interactively.
-     */
+
     public static void main(String[] args) {
         createTaskClass taskCreator = new createTaskClass();
         Scanner scanner = new Scanner(System.in);
@@ -70,7 +60,7 @@ public class createTaskClass {
 }
 
 /**
- * A simple Task class representing a task with a name, description, and scheduled time.
+ * Task class representing a task with a name, description, and scheduled time.
  */
 
 
@@ -78,16 +68,15 @@ class Task {
     private String name;
     private String description;
     private LocalDateTime scheduledTime;
-    private String status; // New field for task status
+    private String status; 
 
     public Task(String name, String description, LocalDateTime scheduledTime) {
         this.name = name;
         this.description = description;
         this.scheduledTime = scheduledTime;
-        this.status = "Pending"; // Default status value
+        this.status = "Pending"; 
     }
 
-    // Getters for testing purposes
     public String getName() {
         return name;
     }
@@ -104,7 +93,6 @@ class Task {
         return status;
     }
 
-    // New setter method for status
     public void setStatus(String status) {
         this.status = status;
     }
