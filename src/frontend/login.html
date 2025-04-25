@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeGrid - Login</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Color Variables */
+        :root {
+            --light-teal: #d5ebe7;
+            --dark-teal: #3a5853;
+            --white: #ffffff;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--light-teal);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: var(--dark-teal);
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .main-content {
+            background-color: var(--dark-teal);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* Form Styles */
+        .login-form {
+            background-color: var(--light-teal);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-block;
+        }
+
+        .btn-login {
+            background-color: var(--dark-teal);
+            color: var(--white);
+        }
+
+        .btn-signup {
+            background-color: var(--light-teal);
+            color: var(--dark-teal);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 2px;
+            background-color: var(--white);
+        }
+
+        .divider-text {
+            color: var(--white);
+            font-weight: bold;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .logo-text {
+                font-size: 22px;
+            }
+
+            .login-form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="index.html" style="text-decoration: none;">
+            <div class="logo-container">
+                <svg class="logo-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Clock -->
+                    <circle cx="70" cy="100" r="60" stroke="#3a5853" stroke-width="10"/>
+                    <path d="M70 60V100L95 125" stroke="#3a5853" stroke-width="10" stroke-linecap="round"/>
+                    
+                    <!-- Calendar -->
+                    <rect x="90" y="50" width="80" height="100" rx="10" stroke="#3a5853" stroke-width="10"/>
+                    <path d="M90 80H170" stroke="#3a5853" stroke-width="10"/>
+                    <path d="M110 40V60" stroke="#3a5853" stroke-width="10" stroke-linecap="round"/>
+                    <path d="M150 40V60" stroke="#3a5853" stroke-width="10" stroke-linecap="round"/>
+                    
+                    <!-- Calendar Grid -->
+                    <rect x="110" y="95" width="15" height="15" fill="#3a5853"/>
+                    <rect x="135" y="95" width="15" height="15" fill="#3a5853"/>
+                    <rect x="110" y="120" width="15" height="15" fill="#3a5853"/>
+                    <rect x="135" y="120" width="15" height="15" fill="#3a5853"/>
+                    
+                    <!-- Checkmark -->
+                    <path d="M155 110L165 120L180 100" stroke="#3a5853" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1 class="logo-text">TimeGrid</h1>
+            </div>
+        </a>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <form id="loginForm" class="login-form">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter Username..." required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-login">Login</button>
+            </div>
+        </form>
+
+        <div class="divider">
+            <div class="divider-line"></div>
+            <div class="divider-text">OR</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <a href="signUp.html" class="btn btn-signup">Sign Up</a>
+    </div>
+
+    <script>
+        // Form validation
+        const form = document.getElementById('loginForm');
+        
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                // Send login request to server
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+
+                if (response.ok) {
+                    // Redirect to task page on successful login
+                    window.location.href = 'task.html';
+                } else {
+                    const data = await response.json();
+                    alert(data.error || "Invalid username or password");
+                }
+            } catch (error) {
+                alert("Error: Could not connect to server");
+            }
+        });
+    </script>
+</body>
+</html>

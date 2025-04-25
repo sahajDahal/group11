@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeGrid - Task Manager</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #2d5050;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #c5e8e0;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid rgba(45, 80, 80, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #2d5050;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-text {
+            font-weight: 600;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        .logout-btn {
+            background-color: #2d5050;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-btn:hover {
+            background-color: #1a3636;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .logout-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Main Content Styles */
+        .container {
+            padding: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Create Task Section */
+        .create-task-section {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .create-task-btn {
+            background-color: #c5e8e0;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            color: #2d5050;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .create-task-btn:hover {
+            background-color: #a7d6ca;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .create-task-btn:active {
+            transform: translateY(0);
+        }
+
+        .create-task-btn span {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .task-form {
+            background-color: #c5e8e0;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d5050;
+            font-size: 15px;
+        }
+
+        .task-title-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(45, 80, 80, 0.2);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .task-title-input:focus {
+            outline: none;
+            border-color: #2d5050;
+            box-shadow: 0 0 0 3px rgba(45, 80, 80, 0.2);
+        }
+
+        .task-description {
+            width: 100%;
+            height: 120px;
+            padding: 12px 15px;
+            border: 1px solid rgba(45, 80, 80, 0.2);
+            border-radius: 8px;
+            resize: none;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .task-description:focus {
+            outline: none;
+            border-color: #2d5050;
+            box-shadow: 0 0 0 3px rgba(45, 80, 80, 0.2);
+        }
+
+        .initial-progress {
+            width: 100%;
+            margin: 15px 0;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #f0f0f0;
+            outline: none;
+            border-radius: 10px;
+        }
+
+        .initial-progress::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2d5050;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .initial-progress::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2d5050;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-task {
+            background-color: #2d5050;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            font-size: 16px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .submit-task:hover {
+            background-color: #1a3636;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-task:active {
+            transform: translateY(0);
+        }
+
+        /* Task Progress Section */
+        .task-progress-section {
+            flex: 1;
+            min-width: 300px;
+            background-color: #c5e8e0;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2d5050;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(45, 80, 80, 0.3);
+            padding-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .tasks-container {
+            background-color: white;
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 12px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .no-tasks-message {
+            text-align: center;
+            color: #777;
+            padding: 30px;
+            font-style: italic;
+            background-color: rgba(45, 80, 80, 0.05);
+            border-radius: 8px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+
+        .task-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .task-avatar {
+            width: 45px;
+            height: 45px;
+            background-color: #2d5050;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .task-content {
+            flex-grow: 1;
+        }
+
+        .task-title {
+            margin-bottom: 5px;
+            color: #2d5050;
+            font-weight: 600;
+            font-size: 17px;
+        }
+
+        .task-description-text {
+            margin-bottom: 12px;
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .progress-slider {
+            flex-grow: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #f0f0f0;
+            outline: none;
+            border-radius: 10px;
+        }
+
+        .progress-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #2d5050;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #2d5050;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-value {
+            min-width: 50px;
+            text-align: right;
+            font-weight: 600;
+            color: #2d5050;
+            background-color: rgba(197, 232, 224, 0.3);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .delete-task {
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #f44336;
+            font-weight: bold;
+            transition: all 0.2s;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .delete-task:hover {
+            background-color: rgba(244, 67, 54, 0.1);
+            transform: scale(1.1);
+        }
+
+        .completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Edit Task Styles */
+        .edit-task {
+            position: absolute;
+            right: 35px;
+            top: 0;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #2d5050;
+            transition: all 0.2s;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .edit-task:hover {
+            background-color: rgba(45, 80, 80, 0.1);
+            transform: scale(1.1);
+        }
+
+        .edit-mode .task-title,
+        .edit-mode .task-description-text {
+            display: none;
+        }
+
+        .edit-form {
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .edit-mode .edit-form {
+            display: block;
+        }
+
+        .edit-title-input,
+        .edit-description-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(45, 80, 80, 0.2);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .edit-description-input {
+            height: 80px;
+            resize: none;
+        }
+
+        .edit-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .save-edit-btn,
+        .cancel-edit-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .save-edit-btn {
+            background-color: #2d5050;
+            color: white;
+            flex: 1;
+        }
+
+        .save-edit-btn:hover {
+            background-color: #1a3636;
+        }
+
+        .cancel-edit-btn {
+            background-color: #f0f0f0;
+            color: #333;
+            flex: 1;
+        }
+
+        .cancel-edit-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Task completion animation */
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        .completed {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        /* Success message */
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+
+        .success-message.show {
+            transform: translateX(0);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .create-task-section, 
+            .task-progress-section {
+                width: 100%;
+            }
+            
+            header {
+                padding: 12px 20px;
+            }
+            
+            .logo-text {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+                background-color: rgba(197, 232, 224, 0.1);
+                border-radius: 8px;
+                margin-bottom: 15px;
+            }
+            
+            .task-avatar {
+                margin-bottom: 10px;
+            }
+            
+            .delete-task {
+                top: 10px;
+                right: 10px;
+            }
+
+            .edit-task {
+                top: 10px;
+                right: 45px;
+            }
+
+            .progress-container {
+                flex-direction: column;
+                align-items: stretch;
+                margin-top: 10px;
+            }
+
+            .progress-value {
+                text-align: center;
+                margin-top: 5px;
+                align-self: flex-end;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .task-form, .task-progress-section {
+                padding: 20px;
+            }
+        }
+
+        /* Custom scrollbar */
+        .tasks-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .tasks-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .tasks-container::-webkit-scrollbar-thumb {
+            background: #2d5050;
+            border-radius: 10px;
+        }
+
+        .tasks-container::-webkit-scrollbar-thumb:hover {
+            background: #1a3636;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <svg width="40" height="40" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" stroke="#2d5050" stroke-width="6" fill="#c5e8e0" />
+                <text x="50%" y="50%" font-family="Poppins, Arial" font-size="24" font-weight="600" fill="#2d5050" dy=".3em" text-anchor="middle">
+                    TG
+                </text>
+            </svg>
+            <span class="logo-text">TimeGrid</span>
+        </a>
+        <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+    </header>
+
+    <div class="container">
+        <div class="create-task-section">
+            <button class="create-task-btn" id="toggleFormBtn"><span>+</span> Create Task</button>
+            
+            <div class="task-form" id="taskForm">
+                <div class="form-group">
+                    <label for="taskTitle" class="form-label">Task Title</label>
+                    <input type="text" id="taskTitle" class="task-title-input" placeholder="Enter task title">
+                </div>
+                
+                <div class="form-group">
+                    <label for="taskDescription" class="form-label">Description</label>
+                    <textarea id="taskDescription" class="task-description" placeholder="Enter task description..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="initialProgress" class="form-label">Initial Progress: <span id="initialProgressValue">0</span>%</label>
+                    <input type="range" id="initialProgress" class="initial-progress" min="0" max="100" value="0">
+                </div>
+                
+                <button id="submitTask" class="submit-task">Create Task</button>
+            </div>
+        </div>
+
+        <div class="task-progress-section">
+            <h2 class="section-title">Task Progress</h2>
+            
+            <div class="tasks-container" id="tasksContainer">
+                <div class="no-tasks-message" id="noTasksMessage">No tasks yet. Create a task to get started!</div>
+                <!-- Tasks will be added here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Success message element -->
+    <div id="successMessage" class="success-message">Task completed successfully!</div>
+
+    <script>
+        // Task data structure
+        let tasks = {};
+        let taskIdCounter = 1;
+        let editingTaskId = null;
+
+        // DOM Elements
+        const taskForm = document.getElementById('taskForm');
+        const toggleFormBtn = document.getElementById('toggleFormBtn');
+        const taskTitleInput = document.getElementById('taskTitle');
+        const taskDescriptionInput = document.getElementById('taskDescription');
+        const initialProgressInput = document.getElementById('initialProgress');
+        const initialProgressValue = document.getElementById('initialProgressValue');
+        const submitTaskBtn = document.getElementById('submitTask');
+        const tasksContainer = document.getElementById('tasksContainer');
+        const noTasksMessage = document.getElementById('noTasksMessage');
+        const successMessage = document.getElementById('successMessage');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load tasks from localStorage if available
+            loadTasks();
+            
+            // Event listeners
+            initialProgressInput.addEventListener('input', function() {
+                initialProgressValue.textContent = this.value;
+            });
+            
+            submitTaskBtn.addEventListener('click', addTask);
+            
+            // Toggle form visibility
+            toggleFormBtn.addEventListener('click', function() {
+                taskForm.style.display = taskForm.style.display === 'none' ? 'block' : 'none';
+                if (taskForm.style.display === 'block') {
+                    taskTitleInput.focus();
+                }
+            });
+            
+            // Display tasks
+            renderTasks();
+        });
+
+        // Function to show success message
+        function showSuccessMessage(message) {
+            successMessage.textContent = message;
+            successMessage.classList.add('show');
+            
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 3000);
+        }
+
+        // Function to add a new task
+        function addTask() {
+            const title = taskTitleInput.value.trim();
+            const description = taskDescriptionInput.value.trim();
+            const progress = parseInt(initialProgressInput.value);
+            
+            if (!title) {
+                alert('Please enter a task title');
+                return;
+            }
+            
+            const taskId = 'task_' + taskIdCounter++;
+            
+            // Add task to data structure
+            tasks[taskId] = {
+                id: taskId,
+                title: title,
+                description: description,
+                progress: progress,
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            saveTasks();
+            
+            // Clear form
+            taskTitleInput.value = '';
+            taskDescriptionInput.value = '';
+            initialProgressInput.value = 0;
+            initialProgressValue.textContent = '0';
+            
+            // Show success message
+            showSuccessMessage('Task created successfully!');
+            
+            // Render tasks
+            renderTasks();
+        }
+
+        // Function to update task progress
+        function updateTaskProgress(taskId, newProgress) {
+            if (tasks[taskId]) {
+                tasks[taskId].progress = newProgress;
+                
+                // Update progress value display
+                const progressValueElement = document.getElementById(`progress-value-${taskId}`);
+                if (progressValueElement) {
+                    progressValueElement.textContent = newProgress + '%';
+                    
+                    // Check if task is completed
+                    if (newProgress == 100) {
+                        completeTask(taskId);
+                    }
+                }
+                
+                // Save to localStorage
+                saveTasks();
+            }
+        }
+
+        // Function to complete a task
+        function completeTask(taskId) {
+            if (tasks[taskId]) {
+                // Mark as completed
+                const taskElement = document.getElementById(taskId);
+                if (taskElement) {
+                    taskElement.classList.add('completed');
+                    
+                    // Show success message
+                    showSuccessMessage('Congratulations! Task completed!');
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        delete tasks[taskId];
+                        saveTasks();
+                        renderTasks();
+                    }, 500);
+                }
+            }
+        }
+
+        // Function to remove a task
+        function removeTask(taskId) {
+            if (tasks[taskId]) {
+                // Ask for confirmation
+                if (confirm('Are you sure you want to delete this task?')) {
+                    // Mark as completed first (for animation purposes)
+                    const taskElement = document.getElementById(taskId);
+                    if (taskElement) {
+                        taskElement.classList.add('completed');
+                        
+                        // Remove after a short delay for animation
+                        setTimeout(() => {
+                            delete tasks[taskId];
+                            saveTasks();
+                            renderTasks();
+                        }, 300);
+                    } else {
+                        delete tasks[taskId];
+                        saveTasks();
+                        renderTasks();
+                    }
+                }
+            }
+        }
+
+        // Function to enter edit mode for a task
+        function editTask(taskId) {
+            if (tasks[taskId]) {
+                // Set the current editing task ID
+                editingTaskId = taskId;
+                
+                // Get the task element
+                const taskElement = document.getElementById(taskId);
+                if (taskElement) {
+                    // Add edit mode class
+                    taskElement.classList.add('edit-mode');
+                    
+                    // Get the edit form inputs
+                    const editTitleInput = document.getElementById(`edit-title-${taskId}`);
+                    const editDescriptionInput = document.getElementById(`edit-description-${taskId}`);
+                    
+                    // Set current values
+                    editTitleInput.value = tasks[taskId].title;
+                    editDescriptionInput.value = tasks[taskId].description;
+                    
+                    // Focus on title input
+                    editTitleInput.focus();
+                }
+            }
+        }
+
+        // Function to save edited task
+        function saveTaskEdit(taskId) {
+            if (tasks[taskId]) {
+                // Get the edited values
+                const editTitleInput = document.getElementById(`edit-title-${taskId}`);
+                const editDescriptionInput = document.getElementById(`edit-description-${taskId}`);
+                
+                const newTitle = editTitleInput.value.trim();
+                const newDescription = editDescriptionInput.value.trim();
+                
+                if (!newTitle) {
+                    alert('Task title cannot be empty');
+                    return;
+                }
+                
+                // Update task data
+                tasks[taskId].title = newTitle;
+                tasks[taskId].description = newDescription;
+                
+                // Save to localStorage
+                saveTasks();
+                
+                // Exit edit mode
+                cancelTaskEdit(taskId);
+                
+                // Show success message
+                showSuccessMessage('Task updated successfully!');
+                
+                // Re-render tasks to update display
+                renderTasks();
+            }
+        }
+
+        // Function to cancel edit mode
+        function cancelTaskEdit(taskId) {
+            const taskElement = document.getElementById(taskId);
+            if (taskElement) {
+                // Remove edit mode class
+                taskElement.classList.remove('edit-mode');
+            }
+            
+            // Clear editing task ID
+            editingTaskId = null;
+        }
+
+        // Function to render all tasks
+        function renderTasks() {
+            // Check if there are any tasks
+            const hasTasks = Object.keys(tasks).length > 0;
+            
+            // Show/hide no tasks message
+            noTasksMessage.style.display = hasTasks ? 'none' : 'block';
+            
+            // Clear current tasks
+            tasksContainer.innerHTML = hasTasks ? '' : noTasksMessage.outerHTML;
+            
+            // Sort tasks by creation date (newest first)
+            const sortedTaskIds = Object.keys(tasks).sort((a, b) => {
+                return new Date(tasks[b].createdAt || 0) - new Date(tasks[a].createdAt || 0);
+            });
+            
+            // Render each task
+            for (const taskId of sortedTaskIds) {
+                const task = tasks[taskId];
+                
+                // Create task element
+                const taskElement = document.createElement('div');
+                taskElement.className = 'task-item';
+                taskElement.id = taskId;
+                
+                // Add edit mode class if this task is being edited
+                if (editingTaskId === taskId) {
+                    taskElement.classList.add('edit-mode');
+                }
+                
+                // Get initials for avatar
+                const initials = task.title.split(' ')
+                    .map(word => word[0])
+                    .join('')
+                    .substring(0, 2)
+                    .toUpperCase();
+                
+                // Set task HTML
+                taskElement.innerHTML = `
+                    <div class="task-avatar">${initials}</div>
+                    <div class="task-content">
+                        <h3 class="task-title">${task.title}</h3>
+                        ${task.description ? `<p class="task-description-text">${task.description}</p>` : ''}
+                        
+                        <div class="edit-form">
+                            <input type="text" id="edit-title-${taskId}" class="edit-title-input" value="${task.title}">
+                            <textarea id="edit-description-${taskId}" class="edit-description-input">${task.description}</textarea>
+                            <div class="edit-buttons">
+                                <button class="save-edit-btn" onclick="saveTaskEdit('${taskId}')">Save</button>
+                                <button class="cancel-edit-btn" onclick="cancelTaskEdit('${taskId}')">Cancel</button>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-container">
+                            <input type="range" class="progress-slider" min="0" max="100" value="${task.progress}" 
+                                onInput="updateTaskProgress('${taskId}', this.value)">
+                            <span class="progress-value" id="progress-value-${taskId}">${task.progress}%</span>
+                        </div>
+                    </div>
+                    <button class="edit-task" onclick="editTask('${taskId}')" title="Edit Task">✏️</button>
+                    <button class="delete-task" onclick="removeTask('${taskId}')" title="Delete Task">×</button>
+                `;
+                
+                // Add to container
+                tasksContainer.appendChild(taskElement);
+            }
+        }
+
+        // Save tasks to localStorage
+        function saveTasks() {
+            localStorage.setItem('timeGridTasks', JSON.stringify(tasks));
+            localStorage.setItem('taskIdCounter', taskIdCounter);
+        }
+
+        // Load tasks from localStorage
+        function loadTasks() {
+            const savedTasks = localStorage.getItem('timeGridTasks');
+            const savedCounter = localStorage.getItem('taskIdCounter');
+            
+            if (savedTasks) {
+                tasks = JSON.parse(savedTasks);
+            }
+            
+            if (savedCounter) {
+                taskIdCounter = parseInt(savedCounter);
+            }
+        }
+    </script>
+</body>
+</html>

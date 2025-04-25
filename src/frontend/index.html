@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeGrid - Task Management Application</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Color Variables */
+        :root {
+            --light-teal: #d5ebe7;
+            --dark-teal: #3a5853;
+            --white: #ffffff;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--light-teal);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: var(--dark-teal);
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-auth {
+            background-color: var(--dark-teal);
+            color: var(--white);
+        }
+
+        /* Hero Section Styles */
+        .hero {
+            background-color: var(--dark-teal);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero-logo {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            color: var(--white);
+            font-size: 48px;
+            margin-bottom: 40px;
+        }
+
+        .tagline-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 1200px;
+            width: 100%;
+            margin-bottom: 60px;
+        }
+
+        .line {
+            height: 2px;
+            background-color: var(--white);
+            flex: 1;
+        }
+
+        .tagline {
+            color: var(--white);
+            font-size: 20px;
+            margin: 0 20px;
+            max-width: 600px;
+        }
+
+        .btn-get-started {
+            background-color: var(--light-teal);
+            color: var(--dark-teal);
+            font-size: 20px;
+            padding: 20px 40px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .logo-text {
+                font-size: 22px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .hero-logo {
+                width: 150px;
+                height: 150px;
+            }
+
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .tagline {
+                font-size: 16px;
+            }
+
+            .btn-get-started {
+                font-size: 18px;
+                padding: 15px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tagline-container {
+                flex-direction: column;
+            }
+
+            .line {
+                width: 80%;
+                margin: 15px 0;
+            }
+
+            .tagline {
+                margin: 15px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <svg class="logo-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Clock -->
+                <circle cx="70" cy="100" r="60" stroke="#3a5853" stroke-width="10"/>
+                <path d="M70 60V100L95 125" stroke="#3a5853" stroke-width="10" stroke-linecap="round"/>
+                
+                <!-- Calendar -->
+                <rect x="90" y="50" width="80" height="100" rx="10" stroke="#3a5853" stroke-width="10"/>
+                <path d="M90 80H170" stroke="#3a5853" stroke-width="10"/>
+                <path d="M110 40V60" stroke="#3a5853" stroke-width="10" stroke-linecap="round"/>
+                <path d="M150 40V60" stroke="#3a5853" stroke-width="10" stroke-linecap="round"/>
+                
+                <!-- Calendar Grid -->
+                <rect x="110" y="95" width="15" height="15" fill="#3a5853"/>
+                <rect x="135" y="95" width="15" height="15" fill="#3a5853"/>
+                <rect x="110" y="120" width="15" height="15" fill="#3a5853"/>
+                <rect x="135" y="120" width="15" height="15" fill="#3a5853"/>
+                
+                <!-- Checkmark -->
+                <path d="M155 110L165 120L180 100" stroke="#3a5853" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h1 class="logo-text">TimeGrid</h1>
+        </div>
+        <div class="auth-buttons">
+            <a href="signUp.html" class="btn btn-auth">Sign Up</a>
+            <a href="login.html" class="btn btn-auth">Login</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <svg class="hero-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Clock -->
+            <circle cx="70" cy="100" r="60" stroke="white" stroke-width="10"/>
+            <path d="M70 60V100L95 125" stroke="white" stroke-width="10" stroke-linecap="round"/>
+            
+            <!-- Calendar -->
+            <rect x="90" y="50" width="80" height="100" rx="10" stroke="white" stroke-width="10"/>
+            <path d="M90 80H170" stroke="white" stroke-width="10"/>
+            <path d="M110 40V60" stroke="white" stroke-width="10" stroke-linecap="round"/>
+            <path d="M150 40V60" stroke="white" stroke-width="10" stroke-linecap="round"/>
+            
+            <!-- Calendar Grid -->
+            <rect x="110" y="95" width="15" height="15" fill="white"/>
+            <rect x="135" y="95" width="15" height="15" fill="white"/>
+            <rect x="110" y="120" width="15" height="15" fill="white"/>
+            <rect x="135" y="120" width="15" height="15" fill="white"/>
+            
+            <!-- Checkmark -->
+            <path d="M155 110L165 120L180 100" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <h2 class="hero-title">TimeGrid</h2>
+
+        <div class="tagline-container">
+            <div class="line"></div>
+            <p class="tagline">The premier task management application to organize tasks and keep track of progress!</p>
+            <div class="line"></div>
+        </div>
+
+        <a href="signUp.html" class="btn btn-get-started">Get Started</a>
+    </section>
+</body>
+</html>
