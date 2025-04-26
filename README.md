@@ -27,6 +27,7 @@ cd <repository-directory>
 
 2. Install the required dependencies:
 ```bash
+cd src/frontend
 pip install -r requirements.txt
 ```
 
